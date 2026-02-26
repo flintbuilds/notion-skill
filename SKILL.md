@@ -1,19 +1,8 @@
 ---
 name: notion
 description: Complete Notion API skill for managing pages, databases, and content with practical workflows
-version: 1.1.0
-author: ClawdHub
 homepage: https://developers.notion.com
-tags:
-  - productivity
-  - databases
-  - notes
-  - task-management
-  - knowledge-base
-metadata:
-  clawdbot:
-    emoji: "📝"
-    category: "productivity"
+metadata: {"openclaw":{"emoji":"📝","category":"productivity","tags":["productivity","databases","notes","task-management","knowledge-base"]}}
 ---
 
 # Notion API Skill
