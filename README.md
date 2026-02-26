@@ -23,6 +23,15 @@ This skill provides Claude with the knowledge to:
 | **CRM** | "Add Jane Smith from Acme Corp as a new lead" |
 | **Research** | "Query all articles tagged 'AI' from last month" |
 
+### Opinionated Workflow Patterns (Bonus)
+
+The skill includes battle-tested patterns for AI assistants:
+
+- **Task Lifecycle** — Create task → Do work → Mark done → Create review task with clickable link
+- **Side Quests** — Handle tangential research without cluttering main task list
+- **Formatting Rules** — Bullets over tables, clickable links always, consistent styling
+- **Preference Tracking** — Store and query user preferences via System Config database
+
 ---
 
 ## Setup Instructions
@@ -249,6 +258,10 @@ MIT License - Use freely in your own projects.
 ---
 
 ## Changelog
+
+### v1.1.0
+- Added opinionated workflow patterns (task lifecycle, side quests, formatting rules)
+- Added preference/config tracking pattern
 
 ### v1.0.0
 - Initial release
