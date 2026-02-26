@@ -340,6 +340,81 @@ curl -X DELETE "https://api.notion.com/v1/blocks/{block_id}" \
 
 ---
 
+## Opinionated Workflow Patterns
+
+These are battle-tested patterns for AI assistants managing tasks in Notion.
+
+### Task Lifecycle (Recommended)
+
+When given a task:
+1. **Create task** in your Tasks database with status "In Progress"
+2. **Do the work**
+3. **On completion:**
+   - Mark original task → "Done"
+   - Create a **Review task**: "Review: [Original Task Name]"
+   - Include a **clickable link** to the deliverable in Notes
+   - Set Review task status to "Not Started"
+
+This creates an audit trail and ensures deliverables get reviewed.
+
+**Example — Creating a review task with clickable link:**
+```bash
+curl -X POST "https://api.notion.com/v1/pages" \
+  -H "Authorization: Bearer $NOTION_KEY" \
+  -H "Notion-Version: 2022-06-28" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "parent": {"database_id": "YOUR_TASKS_DB_ID"},
+    "properties": {
+      "Name": {"title": [{"text": {"content": "Review: API Integration Complete"}}]},
+      "Status": {"select": {"name": "Not Started"}},
+      "Priority": {"select": {"name": "Medium"}},
+      "Notes": {"rich_text": [{"text": {"content": "Deliverable: ", "link": null}}, {"text": {"content": "API Documentation", "link": {"url": "https://notion.so/your-page-id"}}}]}
+    }
+  }'
+```
+
+### Side Quests Pattern
+
+For quick research or tangential tasks:
+1. Create a subpage under a "Side Quests" parent page
+2. Still create a tracker task (for visibility)
+3. Still create a review task when done
+4. Keeps main task list clean while tracking everything
+
+### Formatting Rules
+
+For clean, consistent Notion content:
+
+| Rule | Why |
+|------|-----|
+| **Bullets over tables** | Better mobile rendering, easier to edit |
+| **No emojis in body content** | Cleaner look, emojis only for page icons |
+| **Clickable links always** | Use `{"text": {"content": "Link Text", "link": {"url": "..."}}}` |
+| **Collapsible sections for long content** | Use toggle blocks for details |
+| **Consistent property naming** | Title case: "Due Date" not "due_date" |
+
+**Making links clickable in rich_text:**
+```json
+{
+  "rich_text": [
+    {"text": {"content": "See the "}},
+    {"text": {"content": "full report", "link": {"url": "https://example.com/report"}}},
+    {"text": {"content": " for details."}}
+  ]
+}
+```
+
+### Preference/Config Tracking
+
+If your agent learns user preferences:
+1. Store in a "System Config" database
+2. Properties: Setting Name, Value, Category, Last Updated
+3. Query on startup to load preferences
+4. Update when user states new preferences
+
+---
+
 ## Common Workflows
 
 ### Task Tracking
